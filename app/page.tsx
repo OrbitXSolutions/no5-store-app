@@ -4,7 +4,6 @@ import { HeroSection } from "@/components/home/hero-section"
 import { CollectionsSection } from "@/components/home/collections-section"
 import { CategoriesSection } from "@/components/home/categories-section"
 import { NewArrivalsSection } from "@/components/home/new-arrivals-section"
-import { WhyChooseUsSection } from "@/components/home/why-choose-us-section"
 import { FeaturedBannerSection } from "@/components/home/featured-banner-section"
 import { ReviewsSection } from "@/components/home/reviews-section"
 import { BrandsSection } from "@/components/home/brands-section"
@@ -15,12 +14,11 @@ export default function HomePage() {
       <Header />
       <main>
         <HeroSection />
-        <BrandsSection />
         <CollectionsSection />
         <CategoriesSection />
         <NewArrivalsSection />
         <FeaturedBannerSection />
-        <WhyChooseUsSection />
+        <BrandsSection />
         <ReviewsSection />
       </main>
       <Footer />

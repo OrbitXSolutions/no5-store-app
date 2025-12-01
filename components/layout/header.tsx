@@ -23,6 +23,7 @@ export function Header() {
 
   const navLinks = [
     { href: "/", label: t.nav.home },
+    { href: "/shop", label: t.nav.shop },
     { href: "/about", label: t.nav.about },
     { href: "/contact", label: t.nav.contact },
   ]
@@ -31,7 +32,8 @@ export function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border" : "bg-transparent",
+        "bg-background border-b border-border",
+        isScrolled && "shadow-md backdrop-blur-md",
       )}
     >
       <div className="container mx-auto px-4 lg:px-8">

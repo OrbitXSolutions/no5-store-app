@@ -6,39 +6,36 @@ import { Star, Quote } from "lucide-react"
 const reviews = [
   {
     id: 1,
-    nameEn: "Sarah Johnson",
-    nameAr: "سارة جونسون",
-    avatar: "/professional-woman-portrait.png",
+    nameEn: "Sarah M.",
+    nameAr: "سارة م.",
     rating: 5,
     textEn:
-      "Absolutely love the quality and attention to detail. The customer service is exceptional, and the products always exceed my expectations.",
-    textAr: "أحب جودة المنتجات والاهتمام بالتفاصيل. خدمة العملاء استثنائية، والمنتجات تفوق توقعاتي دائماً.",
-    locationEn: "New York, USA",
-    locationAr: "نيويورك، الولايات المتحدة",
-  },
-  {
-    id: 2,
-    nameEn: "Ahmed Hassan",
-    nameAr: "أحمد حسن",
-    avatar: "/professional-man-portrait.png",
-    rating: 5,
-    textEn:
-      "The best shopping experience I've had online. Fast shipping, beautiful packaging, and the quality is unmatched.",
-    textAr: "أفضل تجربة تسوق عبر الإنترنت. شحن سريع، تغليف جميل، والجودة لا مثيل لها.",
+      "Absolutely love the quality and attention to detail. The abayas are stunning and the customer service is exceptional.",
+    textAr: "أحب جودة العباءات والاهتمام بالتفاصيل. خدمة العملاء استثنائية، والمنتجات تفوق توقعاتي دائماً.",
     locationEn: "Dubai, UAE",
     locationAr: "دبي، الإمارات",
   },
   {
-    id: 3,
-    nameEn: "Emma Williams",
-    nameAr: "إيما ويليامز",
-    avatar: "/young-woman-smiling-portrait.png",
+    id: 2,
+    nameEn: "Fatima A.",
+    nameAr: "فاطمة أ.",
     rating: 5,
     textEn:
-      "I'm a repeat customer for a reason. The styles are always on-trend, and the quality makes every piece a wardrobe staple.",
-    textAr: "أنا عميل دائم لسبب وجيه. الأنماط دائماً عصرية، والجودة تجعل كل قطعة أساسية في خزانة الملابس.",
-    locationEn: "London, UK",
-    locationAr: "لندن، المملكة المتحدة",
+      "The best shopping experience I've had online. Fast shipping, beautiful packaging, and the quality is unmatched.",
+    textAr: "أفضل تجربة تسوق عبر الإنترنت. شحن سريع، تغليف جميل، والجودة لا مثيل لها.",
+    locationEn: "Abu Dhabi, UAE",
+    locationAr: "أبوظبي، الإمارات",
+  },
+  {
+    id: 3,
+    nameEn: "Layla H.",
+    nameAr: "ليلى ه.",
+    rating: 5,
+    textEn:
+      "I'm a repeat customer for a reason. The styles are always elegant, and the quality makes every piece a wardrobe staple.",
+    textAr: "أنا عميلة دائمة لسبب وجيه. الأنماط دائماً أنيقة، والجودة تجعل كل قطعة أساسية في خزانة الملابس.",
+    locationEn: "Sharjah, UAE",
+    locationAr: "الشارقة، الإمارات",
   },
 ]
 
@@ -76,13 +73,13 @@ export function ReviewsSection() {
                 {language === "ar" ? review.textAr : review.textEn}
               </p>
 
-              {/* Reviewer */}
+              {/* Reviewer - Replaced photo with initials circle */}
               <div className="flex items-center gap-4">
-                <img
-                  src={review.avatar || "/placeholder.svg"}
-                  alt={language === "ar" ? review.nameAr : review.nameEn}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
+                <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center">
+                  <span className="text-secondary font-semibold text-lg">
+                    {(language === "ar" ? review.nameAr : review.nameEn).charAt(0)}
+                  </span>
+                </div>
                 <div>
                   <h4 className="font-semibold text-card-foreground">
                     {language === "ar" ? review.nameAr : review.nameEn}

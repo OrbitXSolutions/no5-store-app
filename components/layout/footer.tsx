@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useLanguage } from "@/lib/i18n/language-context"
-import { Mail, MapPin, Instagram } from "lucide-react"
+import { Mail, MapPin, Instagram, CreditCard, Banknote, Lock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -14,8 +14,53 @@ function WhatsAppIcon({ className }: { className?: string }) {
   )
 }
 
+function VisaIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 48 32" fill="currentColor">
+      <rect width="48" height="32" rx="4" fill="currentColor" fillOpacity="0.1" />
+      <path d="M19.5 20L21 12H23.5L22 20H19.5Z" fill="currentColor" />
+      <path
+        d="M30.5 12.2C29.9 12 29 11.8 27.8 11.8C25.2 11.8 23.4 13.1 23.4 14.9C23.4 16.3 24.6 17 25.6 17.5C26.6 18 27 18.3 27 18.7C27 19.3 26.2 19.6 25.4 19.6C24.3 19.6 23.7 19.4 22.8 19L22.4 18.9L22 21.2C22.7 21.5 23.9 21.8 25.2 21.8C28 21.8 29.8 20.5 29.8 18.6C29.8 17.5 29.1 16.7 27.6 16C26.7 15.5 26.1 15.2 26.1 14.7C26.1 14.3 26.6 13.9 27.6 13.9C28.4 13.9 29.1 14.1 29.6 14.3L29.8 14.4L30.5 12.2Z"
+        fill="currentColor"
+      />
+      <path
+        d="M34.5 12H32.5C31.9 12 31.4 12.2 31.2 12.8L27 20H29.8L30.3 18.6H33.6L33.9 20H36.5L34.5 12ZM31 16.8C31.2 16.2 32.2 13.6 32.2 13.6L32.7 14.7L33.3 16.8H31Z"
+        fill="currentColor"
+      />
+      <path d="M17.5 12L15 17.8L14.7 16.4C14.2 15 12.8 13.4 11.2 12.6L13.5 20H16.5L21 12H17.5Z" fill="currentColor" />
+      <path d="M13 12H9L9 12.2C12.3 12.9 14.5 14.9 15.1 17.2L14.4 13C14.3 12.3 13.8 12 13 12Z" fill="currentColor" />
+    </svg>
+  )
+}
+
+function MastercardIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 48 32" fill="none">
+      <rect width="48" height="32" rx="4" fill="currentColor" fillOpacity="0.1" />
+      <circle cx="18" cy="16" r="8" fill="#EB001B" />
+      <circle cx="30" cy="16" r="8" fill="#F79E1B" />
+      <path
+        d="M24 10C25.7 11.3 26.8 13.5 26.8 16C26.8 18.5 25.7 20.7 24 22C22.3 20.7 21.2 18.5 21.2 16C21.2 13.5 22.3 11.3 24 10Z"
+        fill="#FF5F00"
+      />
+    </svg>
+  )
+}
+
+function TamaraIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 48 32" fill="none">
+      <rect width="48" height="32" rx="4" fill="#3FCEA5" fillOpacity="0.2" />
+      <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" fill="#3FCEA5" fontSize="8" fontWeight="bold">
+        Tamara
+      </text>
+    </svg>
+  )
+}
+
 export function Footer() {
   const { t, language } = useLanguage()
+  const isRTL = language === "ar"
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -44,7 +89,7 @@ export function Footer() {
       {/* Main Footer */}
       <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-          {/* About - updated to No.5 Boutique */}
+          {/* About */}
           <div>
             <Link href="/" className="font-serif text-xl font-bold tracking-wide inline-block mb-4">
               No.5 Boutique
@@ -136,7 +181,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Contact - updated with No.5 Boutique info */}
+          {/* Contact */}
           <div>
             <h4 className="font-semibold text-lg mb-6">{t.footer.contact}</h4>
             <ul className="space-y-4">
@@ -165,6 +210,30 @@ export function Footer() {
                 </a>
               </li>
             </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-primary-foreground/10">
+        <div className="container mx-auto px-4 lg:px-8 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <Lock className="w-4 h-4 text-secondary" />
+              <span className="text-sm text-primary-foreground/70">
+                {isRTL ? "دفع آمن 100%" : "100% Secure Payments"}
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <VisaIcon className="w-12 h-8 text-primary-foreground" />
+              <MastercardIcon className="w-12 h-8" />
+              <div className="w-12 h-8 rounded bg-primary-foreground/10 flex items-center justify-center">
+                <CreditCard className="w-5 h-5 text-[#635BFF]" />
+              </div>
+              <TamaraIcon className="w-12 h-8" />
+              <div className="w-12 h-8 rounded bg-primary-foreground/10 flex items-center justify-center">
+                <Banknote className="w-5 h-5 text-green-500" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
