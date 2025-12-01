@@ -1,10 +1,10 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
+import { Breadcrumb } from "@/components/ui/breadcrumb"
 import { useLanguage } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -71,11 +71,15 @@ export default function ContactPage() {
     <>
       <Header />
       <main className="pt-20">
+        <div className="container mx-auto px-4 lg:px-8 pt-6">
+          <Breadcrumb items={[{ label: "Contact", labelAr: "تواصلي معنا" }]} />
+        </div>
+
         {/* Hero Section */}
-        <section className="relative py-20 lg:py-32 bg-muted overflow-hidden">
+        <section className="relative py-16 lg:py-24 bg-muted overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src="/placeholder.svg?height=800&width=1600"
+              src="https://images.unsplash.com/photo-1534536281715-e28d76689b4d?w=1600&q=80"
               alt="Contact No.5 Boutique"
               className="w-full h-full object-cover opacity-20"
             />
@@ -83,12 +87,10 @@ export default function ContactPage() {
           </div>
           <div className="container mx-auto px-4 lg:px-8 relative z-10">
             <div className="max-w-3xl mx-auto text-center">
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6 animate-fade-in-up opacity-0">
+              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6">
                 {t.contact.title}
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground animate-fade-in-up opacity-0 stagger-1">
-                {t.contact.subtitle}
-              </p>
+              <p className="text-lg md:text-xl text-muted-foreground">{t.contact.subtitle}</p>
             </div>
           </div>
         </section>
@@ -179,7 +181,7 @@ export default function ContactPage() {
                 {/* Map/Image */}
                 <div className="relative rounded-2xl overflow-hidden aspect-video bg-muted">
                   <img
-                    src="/placeholder.svg?height=400&width=600"
+                    src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=80"
                     alt="No.5 Boutique Location - Dubai"
                     className="w-full h-full object-cover"
                   />
@@ -190,6 +192,7 @@ export default function ContactPage() {
           </div>
         </section>
 
+        {/* Prefer WhatsApp Section */}
         <section className="py-16 bg-accent">
           <div className="container mx-auto px-4 lg:px-8 text-center">
             <h2 className="font-serif text-2xl lg:text-3xl font-bold text-accent-foreground mb-4">

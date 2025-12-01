@@ -1,20 +1,63 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import { useLanguage } from "@/lib/i18n/language-context"
 import { X, ChevronLeft, ChevronRight, Play, ZoomIn, Maximize2 } from "lucide-react"
 
-interface ProductGalleryProps {
-  images: { type: "image" | "video"; url: string; thumbnail?: string; alt: string }[]
-  productName: string
+interface MediaItem {
+  type: "image" | "video"
+  url: string
+  thumbnail?: string
+  alt: string
 }
 
-export function ProductGallery({ images, productName }: ProductGalleryProps) {
+interface ProductGalleryProps {
+  images?: MediaItem[]
+  productName: string
+  videoUrl?: string
+}
+
+const defaultImages: MediaItem[] = [
+  {
+    type: "image",
+    url: "/elegant-black-silk-abaya-with-gold-embroidery-luxu.jpg",
+    alt: "Elegant black silk abaya with gold embroidery",
+  },
+  {
+    type: "image",
+    url: "/black-abaya-gold-sequins-evening-luxury.jpg",
+    alt: "Black abaya with gold sequins evening luxury",
+  },
+  {
+    type: "image",
+    url: "/black-abaya-side-profile-showing-flowing-silhouett.jpg",
+    alt: "Black abaya side profile flowing silhouette",
+  },
+  {
+    type: "image",
+    url: "/black-abaya-with-pearl-embellishments-luxury.jpg",
+    alt: "Black abaya with pearl embellishments",
+  },
+  {
+    type: "image",
+    url: "/beige-summer-abaya-lightweight.jpg",
+    alt: "Beige summer abaya lightweight",
+  },
+  {
+    type: "video",
+    url: "https://cdn.pixabay.com/video/2020/05/25/40130-424930032_large.mp4",
+    thumbnail: "/elegant-black-silk-abaya-with-gold-embroidery-luxu.jpg",
+    alt: "Abaya fashion showcase video",
+  },
+]
+
+export function ProductGallery({ images, productName, videoUrl }: ProductGalleryProps) {
   const { t, language } = useLanguage()
   const isRTL = language === "ar"
+
+  const galleryImages = defaultImages
 
   const [activeIndex, setActiveIndex] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -24,16 +67,16 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const imageContainerRef = useRef<HTMLDivElement>(null)
 
-  const currentMedia = images[activeIndex]
+  const currentMedia = galleryImages[activeIndex]
 
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
+    setActiveIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1))
     setIsZoomed(false)
     setIsPlaying(false)
   }
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
+    setActiveIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1))
     setIsZoomed(false)
     setIsPlaying(false)
   }
@@ -74,6 +117,12 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [isFullscreen, isRTL])
 
+  const currentImageUrl = currentMedia?.url || "/placeholder.svg"
+  const currentThumbnail =
+    currentMedia?.type === "video"
+      ? currentMedia?.thumbnail || "/elegant-black-silk-abaya-with-gold-embroidery-luxu.jpg"
+      : currentImageUrl
+
   return (
     <>
       <div className="space-y-4">
@@ -81,14 +130,14 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
         <div
           ref={imageContainerRef}
           className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-muted cursor-zoom-in group"
-          onClick={() => currentMedia.type === "image" && setIsZoomed(!isZoomed)}
+          onClick={() => currentMedia?.type === "image" && setIsZoomed(!isZoomed)}
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setIsZoomed(false)}
         >
-          {currentMedia.type === "image" ? (
+          {currentMedia?.type === "image" ? (
             <Image
-              src={currentMedia.url || "/placeholder.svg"}
-              alt={currentMedia.alt}
+              src={currentImageUrl || "/placeholder.svg"}
+              alt={currentMedia?.alt || productName}
               fill
               className={`object-cover transition-transform duration-300 ${isZoomed ? "scale-[2.5]" : "scale-100"}`}
               style={isZoomed ? { transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%` } : undefined}
@@ -98,8 +147,8 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
             <div className="relative w-full h-full">
               <video
                 ref={videoRef}
-                src={currentMedia.url}
-                poster={currentMedia.thumbnail}
+                src={currentMedia?.url}
+                poster={currentThumbnail}
                 className="w-full h-full object-cover"
                 onClick={(e) => {
                   e.stopPropagation()
@@ -123,10 +172,10 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
           )}
 
           {/* Zoom indicator */}
-          {currentMedia.type === "image" && !isZoomed && (
+          {currentMedia?.type === "image" && !isZoomed && (
             <div className="absolute bottom-4 end-4 flex items-center gap-2 px-3 py-2 bg-black/50 text-white rounded-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity">
               <ZoomIn className="w-4 h-4" />
-              {isRTL ? t.product.zoomIn : t.product.zoomIn}
+              {t.product?.zoomIn || "Click to zoom"}
             </div>
           )}
 
@@ -164,33 +213,40 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
 
         {/* Thumbnails */}
         <div className="flex gap-3 overflow-x-auto pb-2">
-          {images.map((media, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setActiveIndex(index)
-                setIsZoomed(false)
-                setIsPlaying(false)
-              }}
-              className={`relative flex-shrink-0 w-20 h-24 rounded-lg overflow-hidden border-2 transition-all ${
-                activeIndex === index
-                  ? "border-secondary ring-2 ring-secondary/30"
-                  : "border-transparent hover:border-secondary/50"
-              }`}
-            >
-              <Image
-                src={media.type === "video" ? media.thumbnail || media.url : media.url}
-                alt={media.alt}
-                fill
-                className="object-cover"
-              />
-              {media.type === "video" && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                  <Play className="w-6 h-6 text-white" fill="white" />
-                </div>
-              )}
-            </button>
-          ))}
+          {galleryImages.map((media, index) => {
+            const thumbSrc =
+              media.type === "video"
+                ? media.thumbnail || "/elegant-black-silk-abaya-with-gold-embroidery-luxu.jpg"
+                : media.url
+
+            return (
+              <button
+                key={index}
+                onClick={() => {
+                  setActiveIndex(index)
+                  setIsZoomed(false)
+                  setIsPlaying(false)
+                }}
+                className={`relative flex-shrink-0 w-20 h-24 rounded-lg overflow-hidden border-2 transition-all ${
+                  activeIndex === index
+                    ? "border-secondary ring-2 ring-secondary/30"
+                    : "border-transparent hover:border-secondary/50"
+                }`}
+              >
+                <Image
+                  src={thumbSrc || "/placeholder.svg"}
+                  alt={media.alt || `Thumbnail ${index + 1}`}
+                  fill
+                  className="object-cover"
+                />
+                {media.type === "video" && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                    <Play className="w-6 h-6 text-white" fill="white" />
+                  </div>
+                )}
+              </button>
+            )
+          })}
         </div>
       </div>
 
@@ -221,42 +277,49 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
 
           {/* Content */}
           <div className="w-full h-full flex items-center justify-center p-8">
-            {currentMedia.type === "image" ? (
+            {currentMedia?.type === "image" ? (
               <Image
-                src={currentMedia.url || "/placeholder.svg"}
-                alt={currentMedia.alt}
+                src={currentImageUrl || "/placeholder.svg"}
+                alt={currentMedia?.alt || productName}
                 fill
                 className="object-contain"
               />
             ) : (
-              <video src={currentMedia.url} controls autoPlay className="max-w-full max-h-full" />
+              <video src={currentMedia?.url} controls autoPlay className="max-w-full max-h-full" />
             )}
           </div>
 
           {/* Thumbnails */}
           <div className="absolute bottom-8 start-1/2 -translate-x-1/2 flex gap-2">
-            {images.map((media, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveIndex(index)}
-                className={`w-16 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                  activeIndex === index ? "border-white" : "border-transparent opacity-50 hover:opacity-100"
-                }`}
-              >
-                <Image
-                  src={media.type === "video" ? media.thumbnail || media.url : media.url}
-                  alt={media.alt}
-                  width={64}
-                  height={80}
-                  className="w-full h-full object-cover"
-                />
-              </button>
-            ))}
+            {galleryImages.map((media, index) => {
+              const thumbSrc =
+                media.type === "video"
+                  ? media.thumbnail || "/elegant-black-silk-abaya-with-gold-embroidery-luxu.jpg"
+                  : media.url
+
+              return (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`w-16 h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                    activeIndex === index ? "border-white" : "border-transparent opacity-50 hover:opacity-100"
+                  }`}
+                >
+                  <Image
+                    src={thumbSrc || "/placeholder.svg"}
+                    alt={media.alt || `Thumbnail ${index + 1}`}
+                    width={64}
+                    height={80}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              )
+            })}
           </div>
 
           {/* Counter */}
           <div className="absolute top-4 start-4 text-white text-lg">
-            {activeIndex + 1} / {images.length}
+            {activeIndex + 1} / {galleryImages.length}
           </div>
         </div>
       )}

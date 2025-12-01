@@ -5,16 +5,42 @@ import Image from "next/image"
 import { useLanguage } from "@/lib/i18n/language-context"
 
 interface SizeGuideTableProps {
-  product: {
-    model: { size: string; height: number; bust: number; waist: number; hips: number; image: string }
-    measurements: Record<string, { shoulder: number; length: number; sleeve: number; chest: number }>
-    sizes: string[]
+  product?: {
+    model?: { size: string; height: number; bust: number; waist: number; hips: number; image: string }
+    measurements?: Record<string, { shoulder: number; length: number; sleeve: number; chest: number }>
+    sizes?: string[]
   }
+}
+
+// Default product data to prevent undefined errors
+const defaultProduct = {
+  model: {
+    size: "S",
+    height: 173,
+    bust: 88,
+    waist: 62,
+    hips: 89,
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&q=80",
+  },
+  sizes: ["XS", "S", "M", "L", "XL"],
+  measurements: {
+    XS: { shoulder: 39, length: 133, sleeve: 61.5, chest: 95 },
+    S: { shoulder: 40, length: 134, sleeve: 62.5, chest: 99 },
+    M: { shoulder: 41, length: 135, sleeve: 63.5, chest: 103 },
+    L: { shoulder: 42.5, length: 136.5, sleeve: 65, chest: 109 },
+    XL: { shoulder: 44, length: 138, sleeve: 66.5, chest: 115 },
+  },
 }
 
 export function SizeGuideTable({ product }: SizeGuideTableProps) {
   const { t, language } = useLanguage()
   const isRTL = language === "ar"
+
+  const productData = {
+    model: product?.model || defaultProduct.model,
+    sizes: product?.sizes || defaultProduct.sizes,
+    measurements: product?.measurements || defaultProduct.measurements,
+  }
 
   const [unit, setUnit] = useState<"cm" | "in">("cm")
   const [activeTab, setActiveTab] = useState<"product" | "body">("product")
@@ -43,7 +69,7 @@ export function SizeGuideTable({ product }: SizeGuideTableProps) {
               unit === "in" ? "bg-secondary text-secondary-foreground" : "hover:bg-muted"
             }`}
           >
-            {isRTL ? t.product.inches : t.product.inches}
+            {t.product.inches}
           </button>
           <button
             onClick={() => setUnit("cm")}
@@ -51,7 +77,7 @@ export function SizeGuideTable({ product }: SizeGuideTableProps) {
               unit === "cm" ? "bg-secondary text-secondary-foreground" : "hover:bg-muted"
             }`}
           >
-            {isRTL ? t.product.cm : t.product.cm}
+            {t.product.cm}
           </button>
         </div>
       </div>
@@ -60,7 +86,7 @@ export function SizeGuideTable({ product }: SizeGuideTableProps) {
       <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-xl">
         <div className="w-16 h-16 rounded-full overflow-hidden bg-muted flex-shrink-0">
           <Image
-            src={product.model.image || "/placeholder.svg"}
+            src={productData.model.image || "/placeholder.svg"}
             alt="Model"
             width={64}
             height={64}
@@ -69,13 +95,12 @@ export function SizeGuideTable({ product }: SizeGuideTableProps) {
         </div>
         <div className={`flex-1 ${isRTL ? "text-right" : ""}`}>
           <p className="font-medium text-foreground mb-1">
-            {isRTL ? t.product.modelWears : t.product.modelWears}: {product.model.size}
+            {t.product.modelWears}: {productData.model.size}
           </p>
           <p className="text-sm text-muted-foreground">
-            {isRTL ? t.product.height : t.product.height}: {getValue(product.model.height)} ·{" "}
-            {isRTL ? t.product.bust : t.product.bust}: {getValue(product.model.bust)} ·{" "}
-            {isRTL ? t.product.waist : t.product.waist}: {getValue(product.model.waist)} ·{" "}
-            {isRTL ? t.product.hips : t.product.hips}: {getValue(product.model.hips)}
+            {t.product.height}: {getValue(productData.model.height)} · {t.product.bust}:{" "}
+            {getValue(productData.model.bust)} · {t.product.waist}: {getValue(productData.model.waist)} ·{" "}
+            {t.product.hips}: {getValue(productData.model.hips)}
           </p>
         </div>
       </div>
@@ -88,7 +113,7 @@ export function SizeGuideTable({ product }: SizeGuideTableProps) {
             activeTab === "product" ? "text-foreground" : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          {isRTL ? t.product.productMeasurements : t.product.productMeasurements}
+          {t.product.productMeasurements}
           {activeTab === "product" && <span className="absolute bottom-0 start-0 end-0 h-0.5 bg-secondary" />}
         </button>
         <button
@@ -97,7 +122,7 @@ export function SizeGuideTable({ product }: SizeGuideTableProps) {
             activeTab === "body" ? "text-foreground" : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          {isRTL ? t.product.bodyMeasurements : t.product.bodyMeasurements}
+          {t.product.bodyMeasurements}
           {activeTab === "body" && <span className="absolute bottom-0 start-0 end-0 h-0.5 bg-secondary" />}
         </button>
       </div>
@@ -108,26 +133,21 @@ export function SizeGuideTable({ product }: SizeGuideTableProps) {
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b border-border">
-                <th className="px-4 py-3 text-start font-semibold text-foreground bg-muted/50">
-                  {isRTL ? t.product.size : t.product.size}
-                </th>
+                <th className="px-4 py-3 text-start font-semibold text-foreground bg-muted/50">{t.product.size}</th>
                 <th className="px-4 py-3 text-center font-semibold text-foreground bg-muted/50">
-                  {isRTL ? t.product.shoulder : t.product.shoulder}
+                  {t.product.shoulder}
                 </th>
+                <th className="px-4 py-3 text-center font-semibold text-foreground bg-muted/50">{t.product.length}</th>
                 <th className="px-4 py-3 text-center font-semibold text-foreground bg-muted/50">
-                  {isRTL ? t.product.length : t.product.length}
+                  {t.product.sleeveLength}
                 </th>
-                <th className="px-4 py-3 text-center font-semibold text-foreground bg-muted/50">
-                  {isRTL ? t.product.sleeveLength : t.product.sleeveLength}
-                </th>
-                <th className="px-4 py-3 text-center font-semibold text-foreground bg-muted/50">
-                  {isRTL ? t.product.chest : t.product.chest}
-                </th>
+                <th className="px-4 py-3 text-center font-semibold text-foreground bg-muted/50">{t.product.chest}</th>
               </tr>
             </thead>
             <tbody>
-              {product.sizes.map((size, index) => {
-                const measurements = product.measurements[size]
+              {productData.sizes.map((size, index) => {
+                const measurements = productData.measurements[size]
+                if (!measurements) return null
                 return (
                   <tr key={size} className={`border-b border-border ${index % 2 === 1 ? "bg-muted/20" : ""}`}>
                     <td className="px-4 py-4 font-semibold text-secondary">{size}</td>
@@ -149,23 +169,22 @@ export function SizeGuideTable({ product }: SizeGuideTableProps) {
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b border-border">
-                <th className="px-4 py-3 text-start font-semibold text-foreground bg-muted/50">
-                  {isRTL ? t.product.size : t.product.size}
+                <th className="px-4 py-3 text-start font-semibold text-foreground bg-muted/50">{t.product.size}</th>
+                <th className="px-4 py-3 text-center font-semibold text-foreground bg-muted/50">
+                  {t.product.bust} ({unit.toUpperCase()})
                 </th>
                 <th className="px-4 py-3 text-center font-semibold text-foreground bg-muted/50">
-                  {isRTL ? t.product.bust : t.product.bust} ({unit.toUpperCase()})
+                  {t.product.waist} ({unit.toUpperCase()})
                 </th>
                 <th className="px-4 py-3 text-center font-semibold text-foreground bg-muted/50">
-                  {isRTL ? t.product.waist : t.product.waist} ({unit.toUpperCase()})
-                </th>
-                <th className="px-4 py-3 text-center font-semibold text-foreground bg-muted/50">
-                  {isRTL ? t.product.hips : t.product.hips} ({unit.toUpperCase()})
+                  {t.product.hips} ({unit.toUpperCase()})
                 </th>
               </tr>
             </thead>
             <tbody>
-              {product.sizes.map((size, index) => {
+              {productData.sizes.map((size, index) => {
                 const measurements = bodyMeasurements[size as keyof typeof bodyMeasurements]
+                if (!measurements) return null
                 return (
                   <tr key={size} className={`border-b border-border ${index % 2 === 1 ? "bg-muted/20" : ""}`}>
                     <td className="px-4 py-4 font-semibold text-secondary">{size}</td>
@@ -181,7 +200,7 @@ export function SizeGuideTable({ product }: SizeGuideTableProps) {
       )}
 
       {/* Measurement Note */}
-      <p className="text-sm text-muted-foreground">{isRTL ? t.product.measurementNote : t.product.measurementNote}</p>
+      <p className="text-sm text-muted-foreground">{t.product.measurementNote}</p>
     </div>
   )
 }

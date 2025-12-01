@@ -4,6 +4,7 @@ import { useState, useMemo } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useLanguage } from "@/lib/i18n/language-context"
+import { Breadcrumb } from "@/components/ui/breadcrumb"
 import { Search, SlidersHorizontal, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { useCart } from "@/lib/cart-context"
 
 // Sample products data - in production this would come from your database/API
 const allProducts = [
@@ -211,6 +213,7 @@ const priceRanges = [
 
 export function ShopContent() {
   const { t, language } = useLanguage()
+  const { addItem } = useCart()
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedColors, setSelectedColors] = useState<string[]>([])
@@ -424,9 +427,12 @@ export function ShopContent() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Page Header */}
+      {/* Page Header with Breadcrumb */}
       <div className="bg-muted/30 border-b border-border">
-        <div className="container mx-auto px-4 lg:px-8 py-12">
+        <div className="container mx-auto px-4 lg:px-8 pt-6">
+          <Breadcrumb items={[{ label: "Shop", labelAr: "المتجر" }]} />
+        </div>
+        <div className="container mx-auto px-4 lg:px-8 py-8">
           <h1 className="font-serif text-4xl lg:text-5xl font-bold text-center mb-4">
             {language === "ar" ? "تسوقي المجموعة" : "Shop Collection"}
           </h1>

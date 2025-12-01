@@ -4,18 +4,20 @@ import { Inter, Playfair_Display } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/i18n/language-context"
+import { CartProvider } from "@/lib/cart-context"
 
 const inter = Inter({ subsets: ["latin"] })
 const playfair = Playfair_Display({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "LUXE Store | Premium E-Commerce",
-  description: "Discover timeless elegance with our curated collections of premium products for the modern lifestyle.",
-  keywords: ["e-commerce", "luxury", "fashion", "lifestyle", "premium"],
+  title: "No.5 Boutique | Elegant Abayas & Modest Fashion Dubai",
+  description:
+    "Discover premium handcrafted Abayas, Hijabs & Perfumes at No.5 Boutique Dubai. Free shipping on orders over 500 AED.",
+  keywords: ["abaya", "dubai fashion", "modest fashion", "hijab", "islamic clothing", "luxury abaya"],
   generator: "v0.app",
   openGraph: {
-    title: "LUXE Store | Premium E-Commerce",
-    description: "Discover timeless elegance with our curated collections",
+    title: "No.5 Boutique | Elegant Abayas & Modest Fashion Dubai",
+    description: "Discover premium handcrafted Abayas at No.5 Boutique Dubai",
     type: "website",
   },
   icons: {
@@ -51,7 +53,9 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <body className={`${inter.className} ${playfair.className} font-sans antialiased`}>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <CartProvider>{children}</CartProvider>
+        </LanguageProvider>
         <Analytics />
       </body>
     </html>

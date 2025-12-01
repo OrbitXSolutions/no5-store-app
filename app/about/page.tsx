@@ -2,43 +2,9 @@
 
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
+import { Breadcrumb } from "@/components/ui/breadcrumb"
 import { useLanguage } from "@/lib/i18n/language-context"
 import { Target, Eye, Heart, Sparkles, Palette } from "lucide-react"
-
-const teamMembers = [
-  {
-    id: 1,
-    nameEn: "Alexandra Chen",
-    nameAr: "ألكسندرا تشين",
-    roleEn: "Founder & CEO",
-    roleAr: "المؤسسة والرئيسة التنفيذية",
-    image: "/placeholder.svg?key=5dczz",
-  },
-  {
-    id: 2,
-    nameEn: "Marcus Thompson",
-    nameAr: "ماركوس طومسون",
-    roleEn: "Creative Director",
-    roleAr: "المدير الإبداعي",
-    image: "/placeholder.svg?key=1jgjj",
-  },
-  {
-    id: 3,
-    nameEn: "Sophia Williams",
-    nameAr: "صوفيا ويليامز",
-    roleEn: "Head of Design",
-    roleAr: "رئيسة قسم التصميم",
-    image: "/placeholder.svg?key=n73kt",
-  },
-  {
-    id: 4,
-    nameEn: "James Anderson",
-    nameAr: "جيمس أندرسون",
-    roleEn: "Operations Manager",
-    roleAr: "مدير العمليات",
-    image: "/placeholder.svg?key=a29xn",
-  },
-]
 
 export default function AboutPage() {
   const { t, language } = useLanguage()
@@ -48,26 +14,31 @@ export default function AboutPage() {
       icon: Heart,
       title: t.about.whoWeAre,
       text: t.about.whoWeAreText,
+      image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&q=80",
     },
     {
       icon: Target,
       title: t.about.mission,
       text: t.about.missionText,
+      image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80",
     },
     {
       icon: Sparkles,
       title: t.about.products,
       text: t.about.productsText,
+      image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80",
     },
     {
       icon: Palette,
       title: t.about.designProcess,
       text: t.about.designProcessText,
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
     },
     {
       icon: Eye,
       title: t.about.future,
       text: t.about.futureText,
+      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80",
     },
   ]
 
@@ -75,11 +46,15 @@ export default function AboutPage() {
     <>
       <Header />
       <main className="pt-20">
+        <div className="container mx-auto px-4 lg:px-8 pt-6">
+          <Breadcrumb items={[{ label: "About Us", labelAr: "من نحن" }]} />
+        </div>
+
         {/* Hero Section */}
-        <section className="relative py-20 lg:py-32 bg-muted overflow-hidden">
+        <section className="relative py-16 lg:py-24 bg-muted overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src="/luxury-abaya-boutique-interior-elegant-store-dubai.jpg"
+              src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1600&q=80"
               alt="No.5 Boutique"
               className="w-full h-full object-cover opacity-20"
             />
@@ -87,10 +62,10 @@ export default function AboutPage() {
           </div>
           <div className="container mx-auto px-4 lg:px-8 relative z-10">
             <div className="max-w-3xl mx-auto text-center">
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6 animate-fade-in-up opacity-0">
+              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6">
                 {t.about.title}
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground animate-fade-in-up opacity-0 stagger-1">
+              <p className="text-lg md:text-xl text-muted-foreground">
                 {language === "ar"
                   ? "اكتشفي قصتنا وشغفنا بالأناقة والحرفية"
                   : "Discover our story and passion for elegance and craftsmanship"}
@@ -104,7 +79,7 @@ export default function AboutPage() {
           <div className="container mx-auto px-4 lg:px-8">
             <div className="relative rounded-2xl overflow-hidden aspect-[21/9]">
               <img
-                src="/placeholder.svg?height=600&width=1400"
+                src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=1400&q=80"
                 alt="No.5 Boutique - Elegance Redefined"
                 className="w-full h-full object-cover"
               />
@@ -143,9 +118,9 @@ export default function AboutPage() {
                 <div className={index % 2 === 1 ? "lg:order-1" : ""}>
                   <div className="relative">
                     <img
-                      src={`/placeholder.svg?height=500&width=600&query=luxury abaya boutique ${section.title.toLowerCase().replace(/\s/g, "-")} fashion elegant`}
+                      src={section.image || "/placeholder.svg"}
                       alt={section.title}
-                      className="rounded-2xl shadow-xl w-full"
+                      className="rounded-2xl shadow-xl w-full aspect-[4/3] object-cover"
                     />
                     <div className="absolute -bottom-4 -end-4 w-24 h-24 bg-secondary rounded-2xl -z-10" />
                   </div>

@@ -2,7 +2,6 @@ import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { ProductDetails } from "@/components/product/product-details"
 
-// Sample product data - in production this would come from your database/API
 const sampleProduct = {
   id: "1",
   slug: "elegant-black-embroidered-abaya",
@@ -61,34 +60,34 @@ Perfect for special occasions, formal events, or when you simply want to make a 
   images: [
     {
       type: "image" as const,
-      url: "/elegant-black-embroidered-abaya-front-view-on-mode.jpg",
-      alt: "Front view",
+      url: "/elegant-black-silk-abaya-with-gold-embroidery-luxu.jpg",
+      alt: "Elegant black silk abaya with gold embroidery",
     },
     {
       type: "image" as const,
-      url: "/elegant-black-embroidered-abaya-back-view-showing-.jpg",
-      alt: "Back view",
-    },
-    {
-      type: "image" as const,
-      url: "/close-up-of-intricate-gold-embroidery-on-black-aba.jpg",
-      alt: "Embroidery detail",
+      url: "/black-abaya-gold-sequins-evening-luxury.jpg",
+      alt: "Black abaya with gold sequins evening luxury",
     },
     {
       type: "image" as const,
       url: "/black-abaya-side-profile-showing-flowing-silhouett.jpg",
-      alt: "Side view",
-    },
-    {
-      type: "video" as const,
-      url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-      thumbnail: "/elegant-black-abaya-video-thumbnail-with-play-butt.jpg",
-      alt: "Product video",
+      alt: "Black abaya side profile flowing silhouette",
     },
     {
       type: "image" as const,
-      url: "/elegant-abaya-fabric-texture-close-up-premium-qual.jpg",
-      alt: "Fabric detail",
+      url: "/black-abaya-with-pearl-embellishments-luxury.jpg",
+      alt: "Black abaya with pearl embellishments",
+    },
+    {
+      type: "image" as const,
+      url: "/beige-summer-abaya-lightweight.jpg",
+      alt: "Beige summer abaya lightweight",
+    },
+    {
+      type: "video" as const,
+      url: "https://cdn.pixabay.com/video/2020/05/25/40130-424930032_large.mp4",
+      thumbnail: "/elegant-black-silk-abaya-with-gold-embroidery-luxu.jpg",
+      alt: "Abaya fashion showcase video",
     },
   ],
   model: {
@@ -97,7 +96,7 @@ Perfect for special occasions, formal events, or when you simply want to make a 
     bust: 88,
     waist: 62,
     hips: 89,
-    image: "/professional-female-model-headshot.jpg",
+    image: "/model-wearing-abaya.jpg",
   },
   measurements: {
     XS: { shoulder: 39, length: 133, sleeve: 61.5, chest: 95 },
@@ -153,7 +152,7 @@ Perfect for special occasions, formal events, or when you simply want to make a 
       nameEn: "Classic Black Open Abaya",
       nameAr: "عباءة سوداء مفتوحة كلاسيكية",
       price: 899,
-      image: "/classic-black-open-abaya-on-mannequin.jpg",
+      image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=400&q=80",
     },
     {
       id: "3",
@@ -161,7 +160,7 @@ Perfect for special occasions, formal events, or when you simply want to make a 
       nameEn: "Navy Blue Lace Abaya",
       nameAr: "عباءة دانتيل أزرق داكن",
       price: 1199,
-      image: "/navy-blue-lace-detailed-abaya-elegant.jpg",
+      image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80",
     },
     {
       id: "4",
@@ -169,7 +168,7 @@ Perfect for special occasions, formal events, or when you simply want to make a 
       nameEn: "Pearl Embellished Abaya",
       nameAr: "عباءة مزينة باللؤلؤ",
       price: 1499,
-      image: "/black-abaya-with-pearl-embellishments-luxury.jpg",
+      image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&q=80",
     },
     {
       id: "5",
@@ -177,7 +176,7 @@ Perfect for special occasions, formal events, or when you simply want to make a 
       nameEn: "Modern Minimalist Abaya",
       nameAr: "عباءة حديثة بسيطة",
       price: 799,
-      image: "/modern-minimalist-black-abaya-clean-design.jpg",
+      image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400&q=80",
     },
   ],
 }

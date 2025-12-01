@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useLanguage } from "@/lib/i18n/language-context"
+import { useCart } from "@/lib/cart-context"
 import { Menu, X, Search, ShoppingBag, User, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -10,6 +11,7 @@ import { cn } from "@/lib/utils"
 
 export function Header() {
   const { t, language, setLanguage, dir } = useLanguage()
+  const { totalItems } = useCart()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -77,24 +79,28 @@ export function Header() {
             </DropdownMenu>
 
             {/* Search */}
-            <Button variant="ghost" size="icon" className="hidden sm:flex">
-              <Search className="h-5 w-5" />
-              <span className="sr-only">{t.header.search}</span>
+            <Button variant="ghost" size="icon" className="hidden sm:flex" asChild>
+              <Link href="/shop">
+                <Search className="h-5 w-5" />
+                <span className="sr-only">{t.header.search}</span>
+              </Link>
             </Button>
 
-            {/* Cart */}
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingBag className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 bg-secondary text-secondary-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
-                0
-              </span>
-              <span className="sr-only">{t.header.cart}</span>
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link href="/cart">
+                <ShoppingBag className="h-5 w-5" />
+                <span className="absolute -top-1 -right-1 bg-secondary text-secondary-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                  {totalItems}
+                </span>
+                <span className="sr-only">{t.header.cart}</span>
+              </Link>
             </Button>
 
-            {/* Account */}
-            <Button variant="ghost" size="icon" className="hidden sm:flex">
-              <User className="h-5 w-5" />
-              <span className="sr-only">{t.header.account}</span>
+            <Button variant="ghost" size="icon" className="hidden sm:flex" asChild>
+              <Link href="/auth/login">
+                <User className="h-5 w-5" />
+                <span className="sr-only">{t.header.account}</span>
+              </Link>
             </Button>
 
             {/* Mobile Menu Toggle */}
@@ -128,6 +134,13 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/auth/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
+            >
+              {language === "ar" ? "تسجيل الدخول" : "Login"}
+            </Link>
           </nav>
         </div>
       </div>
