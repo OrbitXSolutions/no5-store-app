@@ -222,4 +222,35 @@ export default function CheckoutPage() {
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">{isRTL ? "الشحن" : "Shipping"}</span>
                       <span className={shippingCost === 0 ? "text-green-600" : ""}>
-                        {shippingCost === 0 ? (isRTL ? "مجاني\
+                        {shippingCost === 0 ? (isRTL ? "مجاني" : "FREE") : `${shippingCost} ${isRTL ? "د.إ" : "AED"}`}
+                      </span>
+                    </div>
+                    <div className="border-t border-border pt-3">
+                      <div className="flex justify-between text-lg font-bold">
+                        <span>{isRTL ? "الإجمالي" : "Total"}</span>
+                        <span className="text-primary">
+                          {total.toLocaleString()} {isRTL ? "د.إ" : "AED"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button type="submit" size="lg" className="w-full mt-6" disabled={isProcessing}>
+                    {isProcessing
+                      ? isRTL
+                        ? "جاري المعالجة..."
+                        : "Processing..."
+                      : isRTL
+                        ? "تأكيد الطلب"
+                        : "Place Order"}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </main>
+      <Footer />
+    </>
+  )
+}
