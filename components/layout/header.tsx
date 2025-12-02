@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useLanguage } from "@/lib/i18n/language-context"
 import { useCart } from "@/lib/cart-context"
-import { Menu, X, Search, ShoppingBag, User, Globe } from "lucide-react"
+import { Menu, X, Search, ShoppingBag, User, Globe, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
@@ -28,6 +28,7 @@ export function Header() {
     { href: "/shop", label: t.nav.shop },
     { href: "/about", label: t.nav.about },
     { href: "/contact", label: t.nav.contact },
+    { href: "/admin", label: language === "ar" ? "لوحة التحكم" : "Admin" },
   ]
 
   return (
@@ -50,8 +51,12 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative group"
+                className={cn(
+                  "text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative group",
+                  link.href === "/admin" && "flex items-center gap-1",
+                )}
               >
+                {link.href === "/admin" && <Shield className="h-4 w-4" />}
                 {link.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full" />
               </Link>
@@ -129,8 +134,12 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
+                className={cn(
+                  "text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2",
+                  link.href === "/admin" && "flex items-center gap-2",
+                )}
               >
+                {link.href === "/admin" && <Shield className="h-4 w-4" />}
                 {link.label}
               </Link>
             ))}
